@@ -7,9 +7,7 @@ from pathlib import Path
 from datetime import datetime
 import io
 
-# ============================================================
-# Config
-# ============================================================
+
 st.set_page_config(
     page_title="Pneumonia Detection AI",
     page_icon="🫁",
@@ -24,9 +22,7 @@ IMG_SIZE = 64
 if "history" not in st.session_state:
     st.session_state.history = []
 
-# ============================================================
-# Model definition (must match training architecture)
-# ============================================================
+
 class TinyVGG(nn.Module):
     def __init__(self, input_shape: int, hidden_units: int, output_shape: int):
         super().__init__()
@@ -73,9 +69,7 @@ def predict(model, device, image: Image.Image):
     return CLASS_NAMES[idx], float(probs[idx]), probs.cpu().numpy()
 
 
-# ============================================================
-# Styling
-# ============================================================
+
 st.markdown("""
 <style>
     #MainMenu, footer, header {visibility: hidden;}
@@ -125,9 +119,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ============================================================
-# Hero header
-# ============================================================
+
 st.markdown("""
 <div class="hero">
     <h1>🫁 Pneumonia Detection AI</h1>
@@ -136,9 +128,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ============================================================
-# Model load guard
-# ============================================================
 if not MODEL_PATH.exists():
     st.error(f"Model weights not found at `{MODEL_PATH}`. Train the model and place `pneumonia_model.pth` in the `models/` folder.")
     st.stop()
@@ -146,9 +135,7 @@ if not MODEL_PATH.exists():
 with st.spinner("Loading model..."):
     model, device = load_model()
 
-# ============================================================
-# Sidebar
-# ============================================================
+
 with st.sidebar:
     st.subheader("Model Details")
     st.markdown(f"""
@@ -167,9 +154,7 @@ with st.sidebar:
     st.divider()
     st.caption("⚕️ Research / educational tool only. Not a substitute for professional medical diagnosis.")
 
-# ============================================================
-# Main layout
-# ============================================================
+
 tab_analyze, tab_history, tab_about = st.tabs(["🔍 Analyze", "🕒 History", "ℹ️ About"])
 
 with tab_analyze:
